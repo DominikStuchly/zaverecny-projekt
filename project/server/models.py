@@ -40,3 +40,21 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User {0}>'.format(self.email)
+
+
+class Auto(db.Model):
+    __tablename__ = 'auto'
+    id = db.Column(db.Integer, primary_key=True )
+    plate = db.Column(db.String, nullable=False, index=False)
+    confidence = db.Column(db.Float, nullable=False, index=True)
+    processing_time_ms = db.Column(db.Float)
+    image=db.Column(db.LargeBinary)
+    region = db.Column(db.String, nullable=False)
+    time = db.Column(db.DateTime)
+    # Use custom constructor
+    # pylint: disable=W0231
+    def __init__(self, **kwargs):
+        for k, v in kwargs.items():
+            if hasattr(self, k):
+                setattr(self, k, v)
+
